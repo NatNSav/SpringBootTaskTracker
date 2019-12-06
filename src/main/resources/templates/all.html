@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Spring MVC GeekApp</title>
+</head>
+
+<body>
+
+<h1>List of tasks:</h1>
+
+<!--/*@thymesVar id="formtask" type="com.gbjavacourse.SpringBootTaskTracker.entities.FormTask"*/-->
+<!--/*@thymesVar id="taskstatuses" type="java.util.List<com.gbjavacourse.SpringBootTaskTracker.entities.TaskStatus>"*/-->
+<!--/*@thymesVar id="users" type="java.util.List<com.gbjavacourse.SpringBootTaskTracker.entities.User>"*/-->
+
+<form th:action="@{/show}" th:object="${formtask}" method="POST">
+    Filter by owner user
+    <br>
+    <select th:field="*{owner_id}">
+        <option th:value="0" text=""></option>
+        <option th:each="i : ${users}" th:value="${i.getId()}" th:text="${i.toString()}" th:label="${i.toString()}">
+        </option>
+    </select>
+    <br>
+    <br>
+    Filter by status
+    <br>
+    <select th:field="*{status_id}">
+        <option th:value="0" text=""></option>
+        <option th:each="i : ${taskstatuses}" th:value="${i.getId()}" th:text="${i.toString()}" th:label="${i.toString()}">
+        </option>
+    </select>
+    <br> <br>
+    <input type="submit" value="Select"  />
+</form>
+
+<br>
+
+<table bordercolor="black">
+    <thead>
+    <tr>
+        <td width="20">ID</td>
+        <td width="60">Title</td>
+        <td width="60">Owner</td>
+        <td width="60">Executer</td>
+        <td width="60">Description</td>
+        <td width="40">Status</td>
+        <td width="40">Info</td>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="tasks" type="java.util.List<com.gbjavacourse.SpringBootTaskTracker.entities.Task>"*/-->
+    <tr th:each="s : ${tasks}">
+        <td th:text="${s.getId()}"></td>
+        <td th:text="${s.getTitle()}"></td>
+        <td th:text="${s.getOwner().toString()}"></td>
+        <td th:text="${s.getExecuter().toString()}"></td>
+        <td th:text="${s.getDescription()}"></td>
+        <td th:text="${s.getStatus().toString()}"></td>
+        <td><a th:href="@{/task?id={id}(id=${s.getId()})}">info</a></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+
+
+<br>
+<a th:href="@{/}">Start page</a>
+</body>
+</html>

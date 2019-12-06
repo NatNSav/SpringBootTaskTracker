@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Spring Repository</title>
+</head>
+<body>
+<!--/*@thymesVar id="formtask" type="com.gbjavacourse.SpringBootTaskTracker.entities.FormTask"*/-->
+<!--/*@thymesVar id="taskstatuses" type="java.util.List<com.gbjavacourse.SpringBootTaskTracker.entities.TaskStatus>"*/-->
+<!--/*@thymesVar id="users" type="java.util.List<com.gbjavacourse.SpringBootTaskTracker.entities.User>"*/-->
+
+<form th:action="@{/add}" th:object="${formtask}" method="POST">
+
+    Task title: <input th:field="*{title}"/>
+    <br>
+    Task owner name:
+    <select th:field="*{owner_id}">
+        <option th:each="i : ${users}" th:value="${i.getId()}" th:text="${i.toString()}" th:label="${i.toString()}">
+        </option>
+    </select>
+
+    <br>
+    Task executerName name:
+    <select th:field="*{executer_id}">
+        <option th:each="i : ${users}" th:value="${i.getId()}" th:text="${i.toString()}" th:label="${i.toString()}">
+        </option>
+    </select>
+
+    <br>
+    Task description: <input th:field="*{description}"/>
+    <br>
+
+    Status:
+    <select th:field="*{status_id}">
+        <option th:each="i : ${taskstatuses}" th:value="${i.getId()}" th:text="${i.toString()}" th:label="${i.toString()}">
+        </option>
+    </select>
+    <br>
+
+    <br>
+    <input type="submit" value="Submit" />
+</form>
+<br>
+<br>
+<a th:href="@{/}">Start page</a>
+</body>
+</html>

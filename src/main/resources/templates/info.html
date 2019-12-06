@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Spring MVC GeekApp</title>
+</head>
+
+<body>
+<h1>Task info:</h1>
+<br>
+<table bordercolor="black">
+    <thead>
+    <tr>
+        <td width="20">ID</td>
+        <td width="60">Title</td>
+        <td width="60">Owner</td>
+        <td width="60">Executer</td>
+        <td width="60">Description</td>
+        <td width="40">Status</td>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="task" type="com.gbjavacourse.SpringBootTaskTracker.entities.Task"*/-->
+    <tr >
+        <td th:text="${task.getId()}"></td>
+        <td th:text="${task.getTitle()}"></td>
+        <td th:text="${task.getOwner().toString()}"></td>
+        <td th:text="${task.getExecuter().toString()}"></td>
+        <td th:text="${task.getDescription()}"></td>
+        <td th:text="${task.getStatus().toString()}"></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<br>
+<a th:href="@{/}">Start page</a>
+</body>
+</html>
