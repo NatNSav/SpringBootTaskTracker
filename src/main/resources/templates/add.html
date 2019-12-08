@@ -4,6 +4,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Spring Repository</title>
+    <style>
+        .error {color:red}
+    </style>
 </head>
 <body>
 <!--/*@thymesVar id="formtask" type="com.gbjavacourse.SpringBootTaskTracker.entities.FormTask"*/-->
@@ -12,6 +15,7 @@
 
 <form th:action="@{/add}" th:object="${formtask}" method="POST">
 
+    <div class="error" th:if="${#fields.hasErrors('title')}" th:error="*{title}"/>
     Task title: <input th:field="*{title}"/>
     <br>
     Task owner name:
@@ -28,6 +32,7 @@
     </select>
 
     <br>
+    <div class="error" th:if="${#fields.hasErrors('description')}" th:error="*{description}"/>
     Task description: <input th:field="*{description}"/>
     <br>
 

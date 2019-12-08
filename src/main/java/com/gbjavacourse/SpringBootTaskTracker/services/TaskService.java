@@ -12,7 +12,7 @@ public class TaskService  {
     private TaskRepository taskRepository;
 
     @Autowired
-    public void setTaskRepository(TaskRepository taskRepository) {
+    public void setTaskRepositoryInterface(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
