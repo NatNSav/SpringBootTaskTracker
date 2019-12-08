@@ -6,6 +6,7 @@
     <title>Spring Repository</title>
     <style>
         .error {color:red}
+        .main {color:black}
     </style>
 </head>
 <body>
@@ -17,7 +18,9 @@
 
     <div class="error" th:if="${#fields.hasErrors('title')}" th:error="*{title}"/>
     Task title: <input th:field="*{title}"/>
+
     <br>
+    <div class="main"/>
     Task owner name:
     <select th:field="*{owner_id}">
         <option th:each="i : ${users}" th:value="${i.getId()}" th:text="${i.toString()}" th:label="${i.toString()}">
@@ -25,6 +28,7 @@
     </select>
 
     <br>
+    <div class="main"/>
     Task executerName name:
     <select th:field="*{executer_id}">
         <option th:each="i : ${users}" th:value="${i.getId()}" th:text="${i.toString()}" th:label="${i.toString()}">
@@ -34,8 +38,9 @@
     <br>
     <div class="error" th:if="${#fields.hasErrors('description')}" th:error="*{description}"/>
     Task description: <input th:field="*{description}"/>
-    <br>
 
+    <br>
+    <div class="main"/>
     Status:
     <select th:field="*{status_id}">
         <option th:each="i : ${taskstatuses}" th:value="${i.getId()}" th:text="${i.toString()}" th:label="${i.toString()}">

@@ -28,8 +28,7 @@ public class Task {
 
     @Column(name = "description")
     private String description;
-   /* @Column(name = "status")
-    private String status;*/
+
     @ManyToOne
     @JoinColumn(name = "status_id")
     private TaskStatus status;
