@@ -30,13 +30,6 @@ public class User {
 
     @OneToMany(mappedBy = "executer")
     List<Task> executer_tasks;
-   /* @ManyToMany
-    @JoinTable(
-            name = "users_userroles",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "userroles_id")
-    )
-    private List<UserRole> userroles;*/
 
     public User(String name, String surname, String middlename) {
         this.name = name;
@@ -49,7 +42,7 @@ public class User {
     }
 
     public String getUserInfo(){
-        return toString();//+ " " + Arrays.toString(userroles.toArray());
+        return toString();
     }
 
     @Override

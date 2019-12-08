@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
@@ -22,7 +23,7 @@
 <form th:action="@{/show}" th:object="${formtask}" method="GET">
     Filter by owner user
     <br>
-    <select th:name="owner_id" type="number" th:value="${param.owner_id!=null}?${param.owner_id}">
+    <select th:field="*{owner_id}">
         <option th:value="null" text=""></option>
         <option th:each="i : ${users}" th:value="${i.getId()}" th:text="${i.toString()}" th:label="${i.toString()}">
         </option>
@@ -37,12 +38,12 @@
         </option>
     </select>
     <br> <br>
-    <input type="submit" value="Select"  />
+    <input type="submit" class="btn btn-outline-primary" value="Select"  />
 </form>
 
 <br>
 
-<table bordercolor="black">
+<table class="table table-bordered">
     <thead>
     <tr>
         <td width="20">ID</td>
@@ -69,17 +70,17 @@
 </table>
 
 <br>
-<br>
+
 <nav aria-label="Page navigation">
     <ul class="pagination">
         <li class="page-item" th:classappend="${tasks.getNumber()+1==i?'active':''}"
-            th:each="i : ${#numbers.sequence(1,tasks.getTotalPages())}">
-            <a th:class="page-link" th^text="${i}" th:href="@{'/show/?pageNumber='+${i}}"></a>
+            th:each="i : ${#numbers.sequence(1,tasks.getTotalPages())}" th:if="${tasks.getTotalPages()}>0">
+            <a th:class="page-link" th:text="${i}" th:href="@{'/show/?pageNumber='+${i}+'&owner_id='+${formtask.owner_id}+'&status_id='+${formtask.status_id}}"></a>
         </li>
     </ul>
 </nav>
 
-<br>
+
 <a th:href="@{/}">Start page</a>
 </body>
 </html>

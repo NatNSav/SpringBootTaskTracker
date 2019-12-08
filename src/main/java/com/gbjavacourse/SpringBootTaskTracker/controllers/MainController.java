@@ -3,7 +3,6 @@ package com.gbjavacourse.SpringBootTaskTracker.controllers;
 import com.gbjavacourse.SpringBootTaskTracker.entities.FormTask;
 import com.gbjavacourse.SpringBootTaskTracker.entities.Task;
 import com.gbjavacourse.SpringBootTaskTracker.repositories.specifications.TaskSpecifications;
-import com.gbjavacourse.SpringBootTaskTracker.services.TaskInterfaceService;
 import com.gbjavacourse.SpringBootTaskTracker.services.TaskService;
 import com.gbjavacourse.SpringBootTaskTracker.services.TaskStatusService;
 import com.gbjavacourse.SpringBootTaskTracker.services.UserService;
@@ -16,20 +15,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import sun.invoke.empty.Empty;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class MainController {
-    //private TaskService taskService;
-    private TaskInterfaceService taskService;
+    private TaskService taskService;
     private UserService userService;
     private TaskStatusService taskStatusService;
     @Autowired
-    //public void setTaskService(TaskService taskService) {
-    public void setTaskService(TaskInterfaceService taskService) {
+    public void setTaskService(TaskService taskService) {
         this.taskService = taskService;
     }
     @Autowired
@@ -58,7 +53,6 @@ public class MainController {
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     public String addTask(Model model, @ModelAttribute("formtask") @Valid FormTask formtask, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            model.addAttribute("formtask", new FormTask());
             model.addAttribute("users", userService.getAllUsersFromDB());
             model.addAttribute("taskstatuses", taskStatusService.getAllTaskStatusesFromDB());
             return "add";
@@ -73,28 +67,27 @@ public class MainController {
         return "redirect:/show";
     }
 
-    @GetMapping(path = "/show")
-    public String showAll(Model model, @RequestParam(required = false) String owner_id,
-                          @RequestParam(required = false) String status_id,
-                          @RequestParam(defaultValue="1") Long pageNumber) {
+    @RequestMapping(path = "/show")
+    public String showAll(Model model,@ModelAttribute("formtask")  FormTask formtask,
+                          @RequestParam(defaultValue="1") Long pageNumber,
+                          @RequestParam(required = false) String owner_id,
+                          @RequestParam(required = false) String status_id) {
         Page<Task> tasks;
         int taskPerPage=5;
-        Specification<Task> spec = Specification.where(null);
         if(pageNumber==null || pageNumber<1L)pageNumber=1L;
-        if(status_id!=null&&status_id!="")spec=spec.and(TaskSpecifications.status_idEq(Long.parseLong(status_id)));
-        if(owner_id!=null&&owner_id!="")spec=spec.and(TaskSpecifications.owner_idEq(Long.parseLong(owner_id)));
-        /*if(formtask!=null&&formtask.getStatus_id()!=null&&formtask.getOwner_id()!=null
-                &&!formtask.getStatus_id().equals("0")&&!formtask.getOwner_id().equals("0")){tasks = taskService.getAllTasksByStatusAndUserFromDB(formtask.getStatus_id(),formtask.getOwner_id());}
-        else if(formtask!=null&&formtask.getStatus_id()!=null&&!formtask.getStatus_id().equals("0")){tasks = taskService.getAllTasksByStatusFromDB(formtask.getStatus_id());}
-        else if(formtask!=null&&formtask.getOwner_id()!=null&&!formtask.getOwner_id().equals("0")){tasks = taskService.getAllTasksByStatusFromDB(formtask.getOwner_id());}
-        else{
-        */
-            tasks =  taskService.getAllTasksFromDB(spec, PageRequest.of(pageNumber.intValue()-1,taskPerPage, Sort.Direction.ASC, "id"));
-        //}
+
+        Specification<Task> spec = Specification.where(null);
+        //if(formtask.getStatus_id()!=null&&formtask.getStatus_id()!="")spec=spec.and(TaskSpecifications.statusEq(Long.parseLong(formtask.getStatus_id())));
+        //if(formtask.getOwner_id()!=null&&formtask.getOwner_id()!="")spec=spec.and(TaskSpecifications.ownerEq(Long.parseLong(formtask.getOwner_id())));
+        if(status_id!=null&&status_id!="")spec=spec.and(TaskSpecifications.statusEq(Long.parseLong(status_id)));
+        if(owner_id!=null&&owner_id!="")spec=spec.and(TaskSpecifications.ownerEq(Long.parseLong(owner_id)));
+
+        tasks =  taskService.getAllTasksFromDB(spec, PageRequest.of(pageNumber.intValue()-1,taskPerPage, Sort.Direction.ASC, "id"));
+
         model.addAttribute("tasks", tasks);
-        model.addAttribute("formtask", new FormTask());
         model.addAttribute("users", userService.getAllUsersFromDB());
         model.addAttribute("taskstatuses", taskStatusService.getAllTaskStatusesFromDB());
+
         return "all";
     }
 

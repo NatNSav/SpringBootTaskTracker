@@ -17,25 +17,10 @@ public class UserService  {
         this.userRepository = userRepository;
     }
 
-    public void printUsers()  {
-        List<User> usersList = getAllUsersFromDB();
-        for (User t:usersList) {
-            t.printUser();
-        }
-    }
-
-    public boolean isUserInDB(User user)  {
-        return userRepository.isUserInDB(user);
-    }
-
-    public User getUserById(Long id){return  userRepository.getUserById(id);}
+    public User getUserById(Long id){return  userRepository.findById(id).get();}
 
     public List<User> getAllUsersFromDB(){
-        return userRepository.getAllUsersFromDB();
-    }
-
-    public void addUser(User user) {
-        userRepository.addUser(user);
+        return userRepository.findAll();
     }
 
 }

@@ -19,8 +19,8 @@ public class TaskStatusService  {
     }
 
     public List<TaskStatus> getAllTaskStatusesFromDB(){
-        return taskStatusRepository.getAllTaskStatusesFromDB();
+        return taskStatusRepository.findAll();
     }
 
-    public TaskStatus getTaskStatusById(Long id){return  taskStatusRepository.getTaskStatusById(id);}
+    public TaskStatus getTaskStatusById(Long id){return  taskStatusRepository.findById(id).get();}
 }

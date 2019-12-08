@@ -8,11 +8,11 @@ public class TaskSpecifications {
         return (Specification<Task>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), "%" + word + "%");
     }
 
-    public static Specification<Task> status_idEq(Long value) {
-        return (Specification<Task>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("status_id"), value);
+    public static Specification<Task> statusEq(Long value) {
+        return (Specification<Task>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("status"), value);
     }
 
-    public static Specification<Task> owner_idEq(Long value) {
-        return (Specification<Task>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("owner_id"), value);
+    public static Specification<Task> ownerEq(Long value) {
+        return (Specification<Task>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("owner"), value);
     }
 }
