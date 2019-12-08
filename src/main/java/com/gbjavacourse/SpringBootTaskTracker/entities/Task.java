@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,7 @@ public class Task {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "title")
     private String title;
     @ManyToOne
@@ -23,6 +25,7 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "executer_id")
     private User executer;
+
     @Column(name = "description")
     private String description;
    /* @Column(name = "status")
